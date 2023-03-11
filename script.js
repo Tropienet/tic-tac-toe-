@@ -16,15 +16,36 @@ const gameBoard = (() => {
     };
 })();
 
+function createBoardElement( space ) {
+            const boardContainer = document.querySelector('.board-container');
+
+            const spaceOnBoard = document.createElement('div');
+
+            spaceOnBoard.classList.add('space');
+            spaceOnBoard.textContent = space;
+
+            spaceOnBoard.addEventListener("click", () => {
+                spaceOnBoard.textContent = "x"
+            })
+
+            boardContainer.appendChild(spaceOnBoard);
+} 
+
 const game = (() => {
     const start = (board) => board.forEach(row => {
         row.forEach(space => {
-            console.log(space);
+            createBoardElement(space);
         })
     });
+    const playRound = (playerOne, playerTwo) => {
+        console.log(playerOne.name)
+        console.log(playerTwo)
+    }
     return {
         start,
+        playRound,
     };
 })();
 
 game.start(gameBoard.board);
+game.playRound(tin, "toni");
