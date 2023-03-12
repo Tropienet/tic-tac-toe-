@@ -1,51 +1,41 @@
-const playerFactory = (name, mark) => {
-    const sayHello = () => console.log("hello");
-    return {name, mark, sayHello};
-}
-
-const tin = playerFactory("tin", "x");
-
-tin.sayHello();
+const playerFactory = (name , mark) => ({ name , mark })
 
 const gameBoard = (() => {
-    const board = [[1,2,3], 
-                   [4,5,6],
-                   [7,8,9]];
-    return  {
+
+    const board = [1,2,3,4,5,6,7,8,9];
+
+    return {
         board
-    };
+    }
+
 })();
-
-function createBoardElement( space ) {
-            const boardContainer = document.querySelector('.board-container');
-
-            const spaceOnBoard = document.createElement('div');
-
-            spaceOnBoard.classList.add('space');
-            spaceOnBoard.textContent = space;
-
-            spaceOnBoard.addEventListener("click", () => {
-                spaceOnBoard.textContent = "x"
-            })
-
-            boardContainer.appendChild(spaceOnBoard);
-} 
 
 const game = (() => {
-    const start = (board) => board.forEach(row => {
-        row.forEach(space => {
-            createBoardElement(space);
-        })
-    });
-    const playRound = (playerOne, playerTwo) => {
-        console.log(playerOne.name)
-        console.log(playerTwo)
+
+    let playerOne;
+    let playerTwo;
+
+    function createPlayers() {
+        const playerOneName = prompt("Please enter player one name");
+        const playerTwoName = prompt("please enter player two name");
+
+        playerOne = playerFactory(playerOneName, "x");
+        playerTwo = playerFactory(playerTwoName, "o");
+    } 
+
+    function logPlayerNames() {
+        console.log(playerOne.name);
+        console.log(playerTwo.name);
     }
+
     return {
-        start,
-        playRound,
-    };
+        createPlayers,
+        logPlayerNames
+    }
+
 })();
 
-game.start(gameBoard.board);
-game.playRound(tin, "toni");
+game.createPlayers();
+game.logPlayerNames();
+
+console.log(gameBoard.board);
