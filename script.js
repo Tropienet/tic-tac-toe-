@@ -1,3 +1,4 @@
+
 const playerFactory = (name , mark) => ({ name , mark })
 
 const gameBoard = (() => {
@@ -26,7 +27,13 @@ const game = (() => {
         playerTwo = playerFactory(playerTwoName, "o");
     } 
 
-    
+    function checkIfBoardTileIsTaken( boardTileContent ) {
+        if(boardTileContent==="x"||boardTileContent==="o") {
+            alert("Chose a different tile");
+            return false;
+        }
+        return true;
+    }
 
     function updateCurrentPlayer() {
 
@@ -49,8 +56,10 @@ const game = (() => {
         boardTile.textContent = space;
 
         boardTile.addEventListener("click", () => {
-            boardTile.textContent = updateCurrentPlayer();
-            gameBoard.board[rowIndex][spaceIndex] = "x";
+            if(checkIfBoardTileIsTaken(boardTile.textContent)){
+                boardTile.textContent = updateCurrentPlayer();
+                gameBoard.board[rowIndex][spaceIndex] = "x";
+            }
         })
 
         boardContainer.appendChild(boardTile)
