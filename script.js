@@ -20,7 +20,7 @@ const game = (() => {
 
     function createPlayers() {
         const playerOneName = prompt("Please enter player one name");
-        const playerTwoName = prompt("please enter player two name");
+        const playerTwoName = prompt("please enter player two name"); 
 
         playerOne = playerFactory(playerOneName, "x");
         playerTwo = playerFactory(playerTwoName, "o");
@@ -46,9 +46,12 @@ const game = (() => {
 
     }
 
+        const winnerMsg = document.querySelector(".winner-msg");
+
     function checkForWinner() {
             function alertWinner () {
-                alert(`The winner is ${currentPlayer.name}`);
+
+                winnerMsg.textContent = `The winner is ${currentPlayer.name}`;
             }
 
             if(gameBoard.board[0][0]===gameBoard.board[0][1]&&gameBoard.board[0][1]===gameBoard.board[0][2]){
@@ -100,14 +103,47 @@ const game = (() => {
 
     }
 
+    function deleteBoard() {
+        const tiles = document.querySelectorAll(".space");
+
+        tiles.forEach((tile) => {
+            tile.remove();
+        })
+    }
+
+
+
+    function restartGame() {
+        gameBoard.board =  [[1,2,3],
+                   [4,5,6],
+                   [7,8,9]];
+
+        deleteBoard();
+        createBoard();
+        createPlayers();
+
+        winnerMsg.textContent = "";
+    }
+
     
     return {
         createPlayers,
         createBoard,
+        restartGame,
     }
 
 })();
 
-game.createBoard();
-game.createPlayers();
-console.log(gameBoard.board);
+function createStartButton() {
+    const startButton  = document.querySelector(".start-btn");
+    const boardContainer = document.querySelector(".board-container");
+
+    boardContainer.style.visibility = "hidden";
+
+    startButton.addEventListener("click", () => {
+        game.restartGame();
+        boardContainer.style.visibility = "visible"
+    })
+}
+
+createStartButton()
