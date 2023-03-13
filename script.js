@@ -16,6 +16,7 @@ const game = (() => {
 
     let playerOne;
     let playerTwo;
+    let currentPlayer = playerOne;
 
     function createPlayers() {
         const playerOneName = prompt("Please enter player one name");
@@ -24,6 +25,19 @@ const game = (() => {
         playerOne = playerFactory(playerOneName, "x");
         playerTwo = playerFactory(playerTwoName, "o");
     } 
+
+    
+
+    function updateCurrentPlayer() {
+
+        if(currentPlayer===playerOne) {
+            currentPlayer = playerTwo
+        } else {
+            currentPlayer = playerOne
+        }
+
+        return currentPlayer.mark;
+    }
 
     function createBoardTile( space, rowIndex, spaceIndex ) {
         const boardContainer = document.querySelector(".board-container");
@@ -35,7 +49,7 @@ const game = (() => {
         boardTile.textContent = space;
 
         boardTile.addEventListener("click", () => {
-            boardTile.textContent = "x";
+            boardTile.textContent = updateCurrentPlayer();
             gameBoard.board[rowIndex][spaceIndex] = "x";
         })
 
@@ -59,7 +73,6 @@ const game = (() => {
 
 })();
 
-game.createPlayers();
 game.createBoard();
-
+game.createPlayers();
 console.log(gameBoard.board);
