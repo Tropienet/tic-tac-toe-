@@ -17,7 +17,6 @@ const game = (() => {
 
     let playerOne;
     let playerTwo;
-    let currentPlayer = playerOne;
 
     function createPlayers() {
         const playerOneName = prompt("Please enter player one name");
@@ -26,6 +25,8 @@ const game = (() => {
         playerOne = playerFactory(playerOneName, "x");
         playerTwo = playerFactory(playerTwoName, "o");
     } 
+
+    let currentPlayer = playerOne;
 
     function checkIfBoardTileIsTaken( boardTileContent ) {
         if(boardTileContent==="x"||boardTileContent==="o") {
@@ -43,7 +44,30 @@ const game = (() => {
             currentPlayer = playerOne
         }
 
-        return currentPlayer.mark;
+    }
+
+    function checkForWinner() {
+            function alertWinner () {
+                alert(`The winner is ${currentPlayer.name}`);
+            }
+
+            if(gameBoard.board[0][0]===gameBoard.board[0][1]&&gameBoard.board[0][1]===gameBoard.board[0][2]){
+                alertWinner()
+            }else if(gameBoard.board[1][0]===gameBoard.board[1][1]&&gameBoard.board[1][1]===gameBoard.board[1][2]){
+                alertWinner();
+            }else if(gameBoard.board[2][0]===gameBoard.board[2][1]&&gameBoard.board[2][1]===gameBoard.board[2][2]){
+                alertWinner();
+            }else if(gameBoard.board[0][0]===gameBoard.board[1][0]&&gameBoard.board[1][0]===gameBoard.board[2][0]){
+                alertWinner();
+            }else if(gameBoard.board[0][1]===gameBoard.board[1][1]&&gameBoard.board[1][1]===gameBoard.board[2][1]){
+                alertWinner();
+            }else if(gameBoard.board[0][2]===gameBoard.board[1][2]&&gameBoard.board[1][2]===gameBoard.board[2][2]){
+                alertWinner();
+            }else if(gameBoard.board[0][0]===gameBoard.board[1][1]&&gameBoard.board[1][1]===gameBoard.board[2][2]){
+                alertWinner();
+            }else if(gameBoard.board[0][2]===gameBoard.board[1][1]&&gameBoard.board[1][1]===gameBoard.board[2][0]){
+                alertWinner();
+            }
     }
 
     function createBoardTile( space, rowIndex, spaceIndex ) {
@@ -57,8 +81,10 @@ const game = (() => {
 
         boardTile.addEventListener("click", () => {
             if(checkIfBoardTileIsTaken(boardTile.textContent)){
-                boardTile.textContent = updateCurrentPlayer();
-                gameBoard.board[rowIndex][spaceIndex] = "x";
+                updateCurrentPlayer();
+                boardTile.textContent = currentPlayer.mark;
+                gameBoard.board[rowIndex][spaceIndex] = currentPlayer.mark;
+                checkForWinner();
             }
         })
 
