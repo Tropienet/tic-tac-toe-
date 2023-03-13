@@ -2,7 +2,9 @@ const playerFactory = (name , mark) => ({ name , mark })
 
 const gameBoard = (() => {
 
-    const board = [1,2,3,4,5,6,7,8,9];
+    const board = [[1,2,3],
+                   [4,5,6],
+                   [7,8,9]];
 
     return {
         board
@@ -23,19 +25,41 @@ const game = (() => {
         playerTwo = playerFactory(playerTwoName, "o");
     } 
 
-    function logPlayerNames() {
-        console.log(playerOne.name);
-        console.log(playerTwo.name);
+    function createBoardTile( space, rowIndex, spaceIndex ) {
+        const boardContainer = document.querySelector(".board-container");
+
+        const boardTile = document.createElement('div');
+
+        boardTile.classList.add("space");
+
+        boardTile.textContent = space;
+
+        boardTile.addEventListener("click", () => {
+            boardTile.textContent = "x";
+            gameBoard.board[rowIndex][spaceIndex] = "x";
+        })
+
+        boardContainer.appendChild(boardTile)
     }
 
+    function createBoard() {
+        gameBoard.board.forEach((row, rowIndex) => {
+            row.forEach((space, spaceIndex) => {
+                createBoardTile(space, rowIndex, spaceIndex)
+            })
+        })
+
+    }
+
+    
     return {
         createPlayers,
-        logPlayerNames
+        createBoard,
     }
 
 })();
 
 game.createPlayers();
-game.logPlayerNames();
+game.createBoard();
 
 console.log(gameBoard.board);
